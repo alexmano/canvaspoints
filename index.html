@@ -1,0 +1,52 @@
+<html>
+<style>
+</style>
+<body>
+
+<canvas id="drx" width="903" height="657"></canvas>
+
+<script type="text/javascript" src="game.js"></script>
+<script type="text/javascript">
+	var canvas = document.getElementById("drx"),
+    ctx = canvas.getContext("2d");
+	canvas.width = 903;
+	canvas.height = 657;
+
+	var background = new Image();
+	background.src = "car.svg";
+
+	background.onload = function(){
+		ctx.drawImage(background,0,0);		
+		
+		var lastPoint = null;
+		// Front points
+		Helper.DrawPoint(new Helper.Point(100,150,'far'));
+		Helper.DrawPoint(new Helper.Point(100,320,'far'));
+		
+		// Middle points
+		Helper.DrawPoint(new Helper.Point(320,150,'usa'));
+		Helper.DrawPoint(new Helper.Point(320,320,'usa'));
+		
+		// Back points
+		Helper.DrawPoint(new Helper.Point(500,150,'stop'));
+		Helper.DrawPoint(new Helper.Point(500,320,'stop'));
+		
+		canvas.addEventListener('click', function(e) {
+			Helper.AllPoints.forEach(function(crt, index, arr){
+				if(Helper.MouseFoundPoint(crt.x, crt.y, e.offsetX, e.offsetY, 30)) {
+					console.log('punct ochit');
+					if(lastPoint == null) {
+						lastPoint = crt;
+					} else {						
+						Helper.Link2Points(lastPoint, crt);						
+						lastPoint = crt;
+					}
+				}
+			});
+		}, false);
+	};
+	
+
+</script>
+<body>
+</html>
